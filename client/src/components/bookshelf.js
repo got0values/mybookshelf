@@ -2,22 +2,34 @@ import {useState, useEffect} from "react";
 // This will require to npm install axios
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Bookshelf = (props) => {
   const [books, setBooks] = useState([]);
 
+  //gets auth0 userID then sets variable to owner
+  let {isAuthenticated, user} = useAuth0();
+  const [owner, setOwner] = useState("");
+
   //connect to mongodb to get all current record data then set to record state
   useEffect(()=>{
+    if(isAuthenticated){
+      setOwner(user.sub);
+    }
     try {
       axios
-        .get("http://localhost:5000/book/")
+        .get("http://localhost:5000/book/", {
+          headers: {
+            reqowner: owner
+          }
+        })
         .then((response) => {
           setBooks(response.data);
         })
     } catch(error) {
       console.log(error);
     }
-  },[]);
+  },[isAuthenticated, user, owner]);
 
   // This method will delete a record based on the method
   const deleteBook = (id) => {

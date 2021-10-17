@@ -17,7 +17,7 @@ import Bookshelf from "./components/bookshelf";
 
 const App = () => {
   return (
-    <div className="wrapper" id="wrapper">
+    <div class="wrapper" id="wrapper">
       <Navbar />
       <Route exact path="/">
         <Bookshelf />

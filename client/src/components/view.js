@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 // This will require to npm install axios
 import axios from 'axios';
 import { Link, useParams } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 
 const View = (props) => {
 
@@ -17,10 +16,6 @@ const View = (props) => {
   });
 
   let {id} = useParams(); //gets the url param
-
-  //gets auth0 userID then sets variable to owner
-  const {user} = useAuth0(); 
-  const owner = user.id;
 
   const getBook = async () => {
     try {

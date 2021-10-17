@@ -1,72 +1,98 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // This will require to npm install axios
 import axios from 'axios';
 
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Create = (props) => {
-  const {user} = useAuth0();
+  //if authenticated, set the user to userID(user.sub)
+  const {isAuthenticated, user} = useAuth0();
+  const [owner, setOwner] = useState("");
+  useEffect(()=>{
+    if(isAuthenticated){
+      setOwner(user.sub);
+    }
+  },[isAuthenticated, user])
 
-  const [bookISBN, setBookISBN] = useState("");
-  const [bookTitle, setBookTitle] = useState("");
-  const [bookAuthor, setBookAuthor] = useState("");
-  const [bookRating, setBookRating] = useState("");
-  const [bookNotes, setBookNotes] = useState("");
+  const [book, setBook] = useState({
+    bookISBN: "",
+    bookThumbURL: "",
+    bookDescription: "",
+    bookTitle: "",
+    bookAuthor: "",
+    bookRating: "",
+    bookNotes: ""
+  });
 
   const onChangeBookISBN = (e) => {
-    setBookISBN(e.target.value);
+    setBook({
+      ...book, 
+      bookISBN: e.target.value
+    });
   }
 
   const onChangeBookTitle = (e) => {
-    setBookTitle(e.target.value);
+    setBook({
+      ...book, 
+      bookTitle: e.target.value
+    });
   }
 
   const onChangeBookAuthor = (e) => {
-    setBookAuthor(e.target.value);
+    setBook({
+      ...book, 
+      bookAuthor: e.target.value
+    });
   }
 
   const onChangeBookRating = (e) => {
-    setBookRating(e.target.value);
+    setBook({
+      ...book, 
+      bookRating: e.target.value
+    });
   }
 
   const onChangeBookNotes = (e) => {
-    setBookNotes(e.target.value);
+    setBook({
+      ...book, 
+      bookNotes: e.target.value
+    });
   }
-
-  //set auth0 user id as const owner
-  const owner = user.sub;
 
   const onSubmit = (e) => {
     e.preventDefault();
     const newBook = {
-      book_ISBN: bookISBN,
-      book_title: bookTitle,
-      book_author: bookAuthor,
-      book_rating: bookRating,
-      book_notes: bookNotes,
+      book_ISBN: book.bookISBN,
+      book_title: book.bookTitle,
+      book_author: book.bookAuthor,
+      book_rating: book.bookRating,
+      book_notes: book.bookNotes,
       owner: owner
     }
     axios
-      .post("http://localhost:5000/book/add", newBook)
+      .post("http://" + props.server + "/book/add", newBook)
       .then((res) => console.log(res.data));
  
-    setBookISBN("");
-    setBookTitle("");
-    setBookAuthor("");
-    setBookRating("");
-    setBookNotes("");
+    setBook({
+      bookISBN: "",
+      bookTitle: "",
+      bookAuthor: "",
+      bookRating: "",
+      bookNotes: ""
+    })
   }
 
   return (
     <div className="container mt-4 card shadow mb-4">
       <h3 className="card-title d-flex flex-row align-items-center justify-content-center bg-white mt-3">Add Book</h3>
       <form onSubmit={onSubmit}>
+        <input type="hidden" value={owner}/> 
         <div className="form-group">
           <label>ISBN: </label>
           <input
             type="text"
             className="form-control"
-            value={bookISBN}
+            value={book.bookISBN}
             onChange={onChangeBookISBN}
           />
         </div>
@@ -75,7 +101,7 @@ const Create = (props) => {
           <input
             type="text"
             className="form-control"
-            value={bookTitle}
+            value={book.bookTitle}
             onChange={onChangeBookTitle}
           />
         </div>
@@ -84,7 +110,7 @@ const Create = (props) => {
           <input
             type="text"
             className="form-control"
-            value={bookAuthor}
+            value={book.bookAuthor}
             onChange={onChangeBookAuthor}
           />
         </div>
@@ -96,7 +122,7 @@ const Create = (props) => {
               name="priorityOptions"
               id="priorityLow"
               value="Bad"
-              checked={bookRating === "Bad"}
+              checked={book.bookRating === "Bad"}
               onChange={onChangeBookRating}
             />
             <label className="form-check-label">Bad</label>
@@ -108,7 +134,7 @@ const Create = (props) => {
               name="priorityOptions"
               id="priorityMedium"
               value="OK"
-              checked={bookRating === "OK"}
+              checked={book.bookRating === "OK"}
               onChange={onChangeBookRating}
             />
             <label className="form-check-label">Good</label>
@@ -120,7 +146,7 @@ const Create = (props) => {
               name="priorityOptions"
               id="priorityHigh"
               value="Great"
-              checked={bookRating === "Great"}
+              checked={book.bookRating === "Great"}
               onChange={onChangeBookRating}
             />
             <label className="form-check-label">Great</label>
@@ -131,7 +157,7 @@ const Create = (props) => {
           <textarea
             type="text"
             className="form-control"
-            value={bookNotes}
+            value={book.bookNotes}
             onChange={onChangeBookNotes}
           />
         </div>

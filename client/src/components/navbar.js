@@ -23,6 +23,17 @@ const Navbar = () => {
     }
   }, [isAuthenticated])
 
+  const AddBookButton = () => {
+    return (
+      <li className="nav-item d-flex justify-content-center align-items-center">
+        <NavLink className="nav-link" to="/create">
+          <i className="fas fa-fw fa-book"></i>
+          <span style={{fontSize: 17}}>Add Book</span>
+        </NavLink>
+      </li>
+    )
+  }
+
   const LoginButton = () => {
     return (
       <li className="nav-item d-flex justify-content-center align-items-center">
@@ -62,14 +73,14 @@ const Navbar = () => {
             <span style={{fontSize: 17}}>View Books</span>
           </NavLink>
         </li>
-        <li className="nav-item d-flex justify-content-center align-items-center">
-          <NavLink className="nav-link" to="/create">
-            <i className="fas fa-fw fa-book"></i>
-            <span style={{fontSize: 17}}>Add Book</span>
-          </NavLink>
-        </li>
-        <hr className="sidebar-divider my-0"/>
-          {myUser ? (<LogoutButton/>
+        
+        
+          {myUser ? (
+          <>
+            <AddBookButton/>
+            <hr className="sidebar-divider my-0"/>
+            <LogoutButton/>
+          </>
           ):(
           <LoginButton/>)
           }

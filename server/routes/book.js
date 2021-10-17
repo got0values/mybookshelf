@@ -14,12 +14,15 @@ const ObjectId = require("mongodb").ObjectId;
 const Book = require("../models/book.js")
 
 
-// This section will help you get a list of all the records.
+// This section will help you get a list of records by id.
 bookRoutes.route("/book").get(function (req, res) {
   let db_connect = dbo.getDb("bookshelf");
+  let mycollectionquery = {
+    owner: req.headers.reqowner
+  }
   db_connect
     .collection("books")
-    .find({})
+    .find({...mycollectionquery})
     .toArray(function (err, result) {
       if (err) throw err;
       res.json(result);
