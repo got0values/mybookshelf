@@ -22,7 +22,7 @@ Clone both server and client folders
 1. cd into client folder
 2. "npm install" package
 3. create ".env" file with the following:
-*REACT_APP_DOMAIN={Auth0 domain}
-*REACT_APP_CLIENT_ID={Auth0 Client ID}
-*REACT_APP_SERVER=localhost:5000
+* REACT_APP_DOMAIN={Auth0 domain}
+* REACT_APP_CLIENT_ID={Auth0 Client ID}
+* REACT_APP_SERVER=localhost:5000
 4. "npm start"
