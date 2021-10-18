@@ -29,11 +29,11 @@ const Bookshelf = (props) => {
     } catch(error) {
       console.log(error);
     }
-  },[isAuthenticated, user, owner]);
+  },[isAuthenticated, user, owner, props.server]);
 
   // This method will delete a record based on the method
   const deleteBook = (id) => {
-    axios.delete("http://localhost:5000/" + id).then((response) => {
+    axios.delete(props.server + "/" + id).then((response) => {
       console.log(response.data);
     });
     setBooks(books.filter((el) => el._id !== id));
@@ -74,20 +74,24 @@ const Bookshelf = (props) => {
   }
 
   return (
-    <div className="container mt-4 card shadow mb-4">
-      <h3 className="card-title d-flex flex-row align-items-center justify-content-center bg-white mt-3">Bookshelf</h3>
-      <table className="table table-striped mt-3">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>ISBN</th>
-            <th>Rating</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>{bookshelf()}</tbody>
-      </table>
+    <div className="container-sm w-75 fixed-right">
+      <div className="mt-4 card shadow pl-2 pr-2">
+        <h3 className="card-title d-flex flex-row align-items-center justify-content-center bg-white mt-3">Bookshelf</h3>
+        <div className="table-responsive">
+          <table className="card-body table table-striped mt-3">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Rating</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>{bookshelf()}</tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 

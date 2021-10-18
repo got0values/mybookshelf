@@ -61,11 +61,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar-nav bg-gradient-success sidebar sidebar-dark pl-2" id="sidebar" style={{minWidth: "16rem"}}>
-      <div className="position-fixed vh-100">
-        <div className="sidebar-brand">
-          <h3>MyBookshelf</h3>
-        </div>
+    <nav className="navbar-nav bg-gradient-success sidebar sidebar-dark fixed-left" id="sidebar">
+        <h1 className="sidebar-brand mb-4">My<br/>Book<br/>shelf</h1>
         <hr className="sidebar-divider my-0"/>
         <li className="nav-item d-flex justify-content-center align-items-center">
           <NavLink className="nav-link" to="/">
@@ -84,7 +81,6 @@ const Navbar = () => {
           ):(
           <LoginButton/>)
           }
-      </div>
     </nav>
   );
 };
