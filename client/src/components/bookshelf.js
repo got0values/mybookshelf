@@ -73,8 +73,17 @@ const Bookshelf = (props) => {
     });
   }
 
-  return (
-    <div className="container-sm w-75 fixed-right">
+  const Welcome = () => {
+    return (
+      <div className="d-flex flex-column align-items-center justify-content-center mt-3">
+        <h1>Welcome!</h1>
+        <p>Log In on the left to continue</p>
+      </div>
+    )
+  }
+
+  const BookShelfList = () => {
+    return (
       <div className="mt-4 card shadow pl-2 pr-2">
         <h3 className="card-title d-flex flex-row align-items-center justify-content-center bg-white mt-3">Bookshelf</h3>
         <div className="table-responsive">
@@ -92,6 +101,14 @@ const Bookshelf = (props) => {
           </table>
         </div>
       </div>
+    )
+  }
+
+  return (
+    <div className="container-sm w-75 fixed-right">
+      {isAuthenticated ? <BookShelfList/> : (
+        <Welcome/>
+      )}
     </div>
   );
 
