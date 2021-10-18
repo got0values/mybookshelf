@@ -15,21 +15,21 @@ import Edit from "./components/edit";
 import Create from "./components/create";
 import Bookshelf from "./components/bookshelf";
 
-const App = () => {
+const App = (props) => {
   return (
-    <div class="wrapper" id="wrapper">
+    <div className="wrapper" id="wrapper">
       <Navbar />
       <Route exact path="/">
-        <Bookshelf />
+        <Bookshelf server={props.server} />
       </Route>
       <Route path="/view/:id">
-        <View/>
+        <View server={props.server} />
       </Route>
       <Route path="/edit/:id">
-        <Edit/>
+        <Edit server={props.server} />
       </Route>
       <Route path="/create">
-        <Create />
+        <Create server={props.server} />
       </Route>
     </div>
   );

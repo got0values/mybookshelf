@@ -18,7 +18,7 @@ const Bookshelf = (props) => {
     }
     try {
       axios
-        .get("http://localhost:5000/book/", {
+        .get(props.server + "/book/", {
           headers: {
             reqowner: owner
           }

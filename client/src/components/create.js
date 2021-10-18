@@ -70,7 +70,7 @@ const Create = (props) => {
       owner: owner
     }
     axios
-      .post("http://" + props.server + "/book/add", newBook)
+      .post(props.server + "/book/add", newBook)
       .then((res) => console.log(res.data));
  
     setBook({

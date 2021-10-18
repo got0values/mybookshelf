@@ -20,7 +20,7 @@ const Edit = (props) => {
   const getBook = async () => {
     try {
       await axios
-      .get("http://localhost:5000/book/" + id)
+      .get(props.server + "/book/" + id)
       .then((response) => {
         setBook({
           bookISBN: response.data.book_ISBN,

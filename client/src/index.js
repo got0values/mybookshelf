@@ -7,6 +7,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 require("dotenv").config({ path: "../.env" });
 const domain = process.env.REACT_APP_DOMAIN;
 const clientID = process.env.REACT_APP_CLIENT_ID;
+const server = process.env.REACT_APP_SERVER;
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,7 +18,7 @@ ReactDOM.render(
       cacheLocation='localstorage'
     >
       <BrowserRouter>
-        <App />
+        <App server={server} />
       </BrowserRouter>
     </Auth0Provider>
   </React.StrictMode>,
