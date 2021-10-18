@@ -14,8 +14,8 @@ Clone both server and client folders
 1. cd into server folder
 2. "npm install" packages
 3. create "config.env" file with the following:
-*ATLAS_URI={mongodb atlas uri}
-*PORT=5000
+* ATLAS_URI={mongodb atlas uri}
+* PORT=5000
 4. "node server.js" to start the server
 
 ### Client
