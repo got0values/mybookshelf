@@ -3,9 +3,13 @@ import {useState, useEffect} from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import Pagination from './pagination.js';
 
 const Bookshelf = (props) => {
   const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [booksPerPage] = useState(8);
 
   //gets auth0 userID then sets variable to owner
   let {isAuthenticated, user} = useAuth0();
@@ -13,25 +17,30 @@ const Bookshelf = (props) => {
 
   //connect to mongodb to get all current record data then set to record state
   useEffect(()=>{
-    if(isAuthenticated){
-      setOwner(user.sub);
+    const fetchBooks = async () => {
+        if(isAuthenticated){
+        setOwner(user.sub);
+        }
+        try {
+            setLoading(true);
+            axios
+                .get(props.server + "/book/", {
+                headers: {
+                    reqowner: owner
+                }
+            })
+            .then((response) => {
+            setBooks(response.data);
+            setLoading(false);
+            })
+        } catch(error) {
+        console.log(error);
+        }
     }
-    try {
-      axios
-        .get(props.server + "/book/", {
-          headers: {
-            reqowner: owner
-          }
-        })
-        .then((response) => {
-          setBooks(response.data);
-        })
-    } catch(error) {
-      console.log(error);
-    }
+    fetchBooks();
   },[isAuthenticated, user, owner, props.server]);
 
-  // This method will delete a record based on the method
+  // This method will delete a book based on the method
   const deleteBook = (id) => {
     axios.delete(props.server + "/" + id).then((response) => {
       console.log(response.data);
@@ -39,7 +48,7 @@ const Bookshelf = (props) => {
     setBooks(books.filter((el) => el._id !== id));
   }
 
-  //defines a single record in the recordList map method
+  //defines a single book in the bookList map method
   const Book = (props) => (
     <tr className="flex-row align-items-center justify-content-center">
       <td>{props.book.book_title}</td>
@@ -61,8 +70,16 @@ const Bookshelf = (props) => {
     </tr>
   );
 
+  //pagination display variables to get number of books to map
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+
+  //paginate change page function
+  const goToPage = (pageNumber) => setCurrentPage(pageNumber);
+
   const bookshelf = () => {
-    return books.map((currentbook) => {
+    return currentBooks.map((currentbook) => {
       return (
         <Book
           book={currentbook}
@@ -84,23 +101,30 @@ const Bookshelf = (props) => {
 
   const BookShelfList = () => {
     return (
-      <div className="mt-4 card shadow pl-2 pr-2">
-        <h3 className="card-title d-flex flex-row align-items-center justify-content-center bg-white mt-3">Bookshelf</h3>
-        <div className="table-responsive">
-          <table className="card-body table table-striped mt-3">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>ISBN</th>
-                <th>Rating</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>{bookshelf()}</tbody>
-          </table>
+        <div>
+            <div className="mt-4 card shadow pl-2 pr-2" style={{height: '85vh'}}>
+                <h3 className="card-title d-flex flex-row align-items-center justify-content-center bg-white mt-3">Bookshelf</h3>
+                <div className="table-responsive">
+                <table className="card-body table table-striped mt-3">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>ISBN</th>
+                        <th>Rating</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>{!loading ? bookshelf() : "Loading..."}</tbody>
+                </table>
+                </div>
+            </div>
+            <Pagination 
+                booksPerPage={booksPerPage} 
+                totalBooks={books.length} 
+                goToPage={goToPage} 
+            />
         </div>
-      </div>
     )
   }
 
