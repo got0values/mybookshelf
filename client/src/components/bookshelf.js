@@ -3,6 +3,7 @@ import {useState, useEffect} from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import Welcome from "./welcome.js"
 import Pagination from './pagination.js';
 
 const Bookshelf = (props) => {
@@ -38,7 +39,7 @@ const Bookshelf = (props) => {
         }
     }
     fetchBooks();
-  },[isAuthenticated, user, owner, props.server]);
+  },[isAuthenticated, user, owner]);
 
   // This method will delete a book based on the method
   const deleteBook = (id) => {
@@ -48,27 +49,59 @@ const Bookshelf = (props) => {
     setBooks(books.filter((el) => el._id !== id));
   }
 
-  //defines a single book in the bookList map method
-  const Book = (props) => (
-    <tr className="flex-row align-items-center justify-content-center">
-      <td>{props.book.book_title}</td>
-      <td>{props.book.book_author}</td>
-      <td>{props.book.book_ISBN}</td>
-      <td>{props.book.book_rating}</td>
-      <td>
-        <Link to={"/view/" + props.book._id} className="btn btn-success shadow mr-1">View</Link>
-        <a
-          href="/"
-          onClick={() => {
-            props.deleteBook(props.book._id);
-          }}
-          className="btn btn-danger shadow ml-1"
-        >
-          Delete
-        </a>
-      </td>
-    </tr>
-  );
+    //defines a single book in the bookList map method
+    const Book = (props) => {
+
+        //gets book thumbnail
+        const [bookurl, setBookurl] = useState("");
+        const getThumb = async (isbn) => {
+            if (isbn !== "") {
+                try {
+                    await axios
+                    .get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn)
+                    .then((response) => {
+                    if (response.data.items !== undefined) {
+                        setBookurl(response.data.items[0].volumeInfo.imageLinks.thumbnail)
+                        };
+                    })
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+            else {
+                setBookurl("https://via.placeholder.com/128x195");
+            }
+        }
+        useEffect(()=>{
+            getThumb(props.book.book_ISBN);
+        },[props.book.book_ISBN])
+        
+        return (
+            <div className="card m-2" style={{width: "14rem"}}>
+                <Link to={"/view/" + props.book._id}>
+                    <img className="card-img-top pt-1 px-5" src={bookurl} alt="bookimg"/>
+                </Link>
+                <div className="card-body">
+                    <div className="card-title">{props.book.book_title}</div>
+                    <div className="card-text">{props.book.book_author}</div>
+                    <div className="card-text">{props.book.book_ISBN}</div>
+                    <div className="card-text">{props.book.book_rating}</div>
+                    <div className="card-text">
+                        <Link to={"/view/" + props.book._id} className="btn btn-success shadow mr-1">View</Link>
+                        <a
+                        href="/"
+                        onClick={() => {
+                            props.deleteBook(props.book._id);
+                        }}
+                        className="btn btn-danger shadow ml-1"
+                        >
+                        Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 
   //pagination display variables to get number of books to map
   const indexOfLastBook = currentPage * booksPerPage;
@@ -78,7 +111,7 @@ const Bookshelf = (props) => {
   //paginate change page function
   const goToPage = (pageNumber) => setCurrentPage(pageNumber);
 
-  const bookshelf = () => {
+  const Bookshelf = () => {
     return currentBooks.map((currentbook) => {
       return (
         <Book
@@ -90,33 +123,13 @@ const Bookshelf = (props) => {
     });
   }
 
-  const Welcome = () => {
-    return (
-      <div className="d-flex flex-column align-items-center justify-content-center mt-3">
-        <h1>Welcome!</h1>
-        <p>Log In on the left to continue</p>
-      </div>
-    )
-  }
-
   const BookShelfList = () => {
     return (
         <div>
-            <div className="mt-4 card shadow pl-2 pr-2" style={{height: '85vh'}}>
-                <h3 className="card-title d-flex flex-row align-items-center justify-content-center bg-white mt-3">Bookshelf</h3>
-                <div className="table-responsive">
-                <table className="card-body table table-striped mt-3">
-                    <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>ISBN</th>
-                        <th>Rating</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>{!loading ? bookshelf() : "Loading..."}</tbody>
-                </table>
+            <div className="mt-4 pl-2 pr-2">
+                <h3 className="d-flex flex-row align-items-center justify-content-center bg-white mt-3">Bookshelf</h3>
+                <div className="row justify-content-center mt-3">
+                    {!loading ? Bookshelf() : "Loading..."}
                 </div>
             </div>
             <Pagination 
@@ -129,7 +142,7 @@ const Bookshelf = (props) => {
   }
 
   return (
-    <div className="container-sm w-75 fixed-right">
+    <div className="container w-75 fixed-right">
       {isAuthenticated ? <BookShelfList/> : (
         <Welcome/>
       )}

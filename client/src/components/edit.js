@@ -140,7 +140,7 @@ const Edit = (props) => {
   }
 
   return (
-    <div className="container mt-4 card shadow mb-4">
+    <div className="container w-75 fixed-right">
       <h3 className="card-title d-flex flex-row align-items-center justify-content-center bg-white mt-3">Update Book: {book.bookTitle}</h3>
       {console.log(book.bookISBN)}
       {book.bookISBN !== "" ? <BookInfo/> : ""}

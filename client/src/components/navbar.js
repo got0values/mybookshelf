@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import "startbootstrap-sb-admin-2/css/sb-admin-2.min.css";
 // import "../styles/style.css";
 //import fontawesome icon styles
@@ -36,9 +36,9 @@ const Navbar = () => {
 
   const LoginButton = () => {
     return (
-      <div className="position-fixed fixed-bottom">
+      <div className="position-absolute fixed-bottom d-flex">
         <li className="nav-item">
-          <button className="btn btn-link nav-link " onClick={() => loginWithRedirect()}>
+          <button className="btn btn-link nav-link col-2" onClick={() => loginWithRedirect()}>
             <i className="fas fa-fw fa-sign-out-alt"></i>
             <span style={{fontSize: 17}}>
             Log In
@@ -51,9 +51,9 @@ const Navbar = () => {
 
   const LogoutButton = () => {
     return (
-      <div className="position-fixed fixed-bottom col-1">
+      <div className="position-absolute fixed-bottom d-flex">
         <li className="nav-item">
-          <button className="btn btn-link nav-link " onClick={() => logout({returnTo: window.location.origin})}>
+          <button className="btn btn-link nav-link" onClick={() => logout({returnTo: window.location.origin})}>
             <i className="fas fa-fw fa-sign-out-alt"></i>
             <span style={{fontSize: 17}}>
             Log Out
@@ -64,27 +64,43 @@ const Navbar = () => {
     )
   };
 
+    //toggle navbar display
+    const navbarRef = useRef();
+    const displayNav = () => {
+        const navbar = navbarRef.current;
+        if (navbar.className === "navbar-nav bg-success sidebar sidebar-dark fixed-left") {
+            navbar.className = "d-none";
+        }
+        else {
+            navbar.className = "navbar-nav bg-success sidebar sidebar-dark fixed-left";
+        }
+    }
   return (
-    <nav className="navbar-nav bg-gradient-success sidebar sidebar-dark fixed-left" id="sidebar">
-        <div className="position-fixed vh-100">
-          <h1 className="sidebar-brand mb-4">My<br/>Book<br/>shelf</h1>
-          <hr className="sidebar-divider my-0"/>
-          <li className="nav-item d-flex justify-content-center align-items-center">
-            <NavLink className="nav-link" to="/">
-              <i className="fas fa-fw fa-list"></i>
-              <span style={{fontSize: 17}}>View Books</span>
-            </NavLink>
-          </li>
-            {myUser ? (
-            <>
-              <AddBookButton/>
-              <LogoutButton/>
-            </>
-            ):(
-            <LoginButton/>)
-            }
-          </div>
-    </nav>
+    <>
+        <button className="btn d-flex position-fixed fixed-left" onClick={displayNav} style={{zIndex: "100"}}>
+            <i class="fa fa-bars"></i>
+        </button>
+        <nav className="navbar-nav bg-success sidebar sidebar-dark fixed-left d-none" ref={navbarRef}>
+            <div className="position-fixed vh-100">
+            <h1 className="sidebar-brand mb-4">My<br/>Book<br/>shelf</h1>
+            <hr className="sidebar-divider my-0"/>
+            <li className="nav-item d-flex justify-content-center align-items-center">
+                <NavLink className="nav-link" to="/">
+                <i className="fas fa-fw fa-list"></i>
+                <span style={{fontSize: 17}}>View Books</span>
+                </NavLink>
+            </li>
+                {myUser ? (
+                <>
+                <AddBookButton/>
+                <LogoutButton/>
+                </>
+                ):(
+                <LoginButton/>)
+                }
+            </div>
+        </nav>
+    </>
   );
 };
  

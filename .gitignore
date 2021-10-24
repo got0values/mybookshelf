@@ -3,3 +3,5 @@ client/.env
 server/node_modules
 server/config.env
 *.env
+*2.js
+build/
