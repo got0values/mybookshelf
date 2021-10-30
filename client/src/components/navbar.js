@@ -86,7 +86,9 @@ const Navbar = () => {
         </button>
         <nav className="navbar-nav shadow sidebar sidebar-light fixed-left" ref={navbarRef}>
             <div className="position-fixed vh-100">
-                <h1 className="sidebar-brand mb-4">My<br/>Book<br/>shelf</h1>
+                <div className="row justify-content-center">                
+                    <img src="mybookshelflogo.png" alt="mybookshelf logo" className="img-fluid" style={{maxWidth: "100px"}}/>
+                </div>
                 <hr className="sidebar-divider my-0"/>
                 <li className="nav-item d-flex justify-content-center align-items-center">
                     <NavLink className="nav-link" to="/">
