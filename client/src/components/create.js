@@ -88,7 +88,7 @@ const Create = (props) => {
       <form onSubmit={onSubmit}>
         <input type="hidden" value={owner}/> 
         <div className="form-group">
-          <label>ISBN: </label>
+          <label>ISBN (for book info and thumbnail): </label>
           <input
             type="text"
             className="form-control"

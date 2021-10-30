@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
 import "startbootstrap-sb-admin-2/css/sb-admin-2.min.css";
-// import "../styles/style.css";
 //import fontawesome icon styles
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";

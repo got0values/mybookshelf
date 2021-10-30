@@ -40,7 +40,7 @@ const Edit = (props) => {
 
     const getBook = async () => {
         console.log(props.server)        
-        try {
+        try {            
           await axios
           .get(props.server + "/book/" + id)
           .then((response) => {
@@ -139,7 +139,7 @@ const Edit = (props) => {
       <hr/>
       <form onSubmit={onSubmit}>
       <div className="form-group">
-          <label>ISBN: </label>
+          <label>ISBN (for book info and thumbnail): </label>
           <input
             type="text"
             className="form-control"

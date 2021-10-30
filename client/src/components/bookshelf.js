@@ -25,7 +25,7 @@ const Bookshelf = (props) => {
         }
         try {
             setLoading(true);
-            axios
+            await axios
                 .get(props.server + "/book/", {
                 headers: {
                     reqowner: owner
@@ -41,7 +41,7 @@ const Bookshelf = (props) => {
         }
     }
     fetchBooks();
-  },[isAuthenticated, user, owner]);
+  },[isAuthenticated, user, owner, props.server]);
 
   // This method will delete a book based on the method
   const deleteBook = (id) => {
