@@ -45,7 +45,7 @@ const Edit = (props) => {
           .get(props.server + "/book/" + id)
           .then((response) => {
             setBook({
-              bookISBN: response.data.book_ISBN,
+              bookISBN: response.data.book_ISBN.replace(/-/g, ''),
               bookTitle: response.data.book_title,
               bookAuthor: response.data.book_author,
               bookRating: response.data.book_rating,

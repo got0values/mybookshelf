@@ -38,7 +38,7 @@ const Navbar = () => {
     return (
       <div className="position-absolute fixed-bottom d-flex">
         <li className="nav-item">
-          <button className="btn btn-link nav-link col-2" onClick={() => loginWithRedirect()}>
+          <button className="btn btn-link nav-link" onClick={() => loginWithRedirect()}>
             <i className="fas fa-fw fa-sign-out-alt"></i>
             <span style={{fontSize: 17}}>
             Log In
@@ -66,38 +66,43 @@ const Navbar = () => {
 
     //toggle navbar display
     const navbarRef = useRef();
+    const hamburgerX = useRef();
     const displayNav = () => {
         const navbar = navbarRef.current;
-        if (navbar.className === "navbar-nav bg-success sidebar sidebar-dark fixed-left") {
+        const hamburger = hamburgerX.current;
+        if (navbar.className === "navbar-nav shadow sidebar sidebar-light fixed-left") {
             navbar.className = "d-none";
+            hamburger.className = "fa fa-bars";
         }
         else {
-            navbar.className = "navbar-nav bg-success sidebar sidebar-dark fixed-left";
+            navbar.className = "navbar-nav shadow sidebar sidebar-light fixed-left";
+            hamburger.className = "fas fa-times";
         }
     }
+    
   return (
     <>
         <button className="btn d-flex position-fixed fixed-left" onClick={displayNav} style={{zIndex: "100"}}>
-            <i class="fa fa-bars"></i>
+            <i className="fas fa-times" ref={hamburgerX}></i>
         </button>
-        <nav className="navbar-nav bg-success sidebar sidebar-dark fixed-left d-none" ref={navbarRef}>
+        <nav className="navbar-nav shadow sidebar sidebar-light fixed-left" ref={navbarRef}>
             <div className="position-fixed vh-100">
-            <h1 className="sidebar-brand mb-4">My<br/>Book<br/>shelf</h1>
-            <hr className="sidebar-divider my-0"/>
-            <li className="nav-item d-flex justify-content-center align-items-center">
-                <NavLink className="nav-link" to="/">
-                <i className="fas fa-fw fa-list"></i>
-                <span style={{fontSize: 17}}>View Books</span>
-                </NavLink>
-            </li>
-                {myUser ? (
-                <>
-                <AddBookButton/>
-                <LogoutButton/>
-                </>
-                ):(
-                <LoginButton/>)
-                }
+                <h1 className="sidebar-brand mb-4">My<br/>Book<br/>shelf</h1>
+                <hr className="sidebar-divider my-0"/>
+                <li className="nav-item d-flex justify-content-center align-items-center">
+                    <NavLink className="nav-link" to="/">
+                        <i className="fas fa-fw fa-list"></i>
+                    <span style={{fontSize: 17}}>View Books</span>
+                    </NavLink>
+                </li>
+                    {myUser ? (
+                    <>
+                    <AddBookButton/>
+                    <LogoutButton/>
+                    </>
+                    ):(
+                    <LoginButton/>)
+                    }
             </div>
         </nav>
     </>

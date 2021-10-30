@@ -3,8 +3,7 @@ import React from "react";
 // We use Route in order to define the different routes of our application
 import { Route } from "react-router-dom";
 
-// We import bootstrap to make our application look better.
-import "startbootstrap-sb-admin-2/css/sb-admin-2.min.css";
+import "bootstrap";
 
 // import "./styles/style.css";
 

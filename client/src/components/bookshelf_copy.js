@@ -79,27 +79,25 @@ const Bookshelf = (props) => {
         },[props.book.book_ISBN])
         
         return (
-            <div className="card my-1 mx-3" style={{width: "14rem"}}>
+            <div className="card shadow m-3" style={{width: "14rem"}}>
                 <Link to={"/view/" + props.book._id}>
-                    <img className="card-img-top pt-2 px-5" src={bookurl} alt="bookimg"/>
+                    <img className="card-img-top pt-1 px-5" src={bookurl} alt="bookimg"/>
                 </Link>
-                <div className="mt-auto">
-                    <div className="card-header bg-white">{props.book.book_title}</div>
-                    <div className="card-body d-flex flex-column">
-                        <div>{props.book.book_author}</div>
-                        <div>{props.book.book_rating}</div>
-                        <div className="mt-auto">
-                            <Link to={"/view/" + props.book._id} className="btn btn-outline-success p-1 px-2 mr-1">View</Link>
-                            <a
-                            href="/"
-                            onClick={() => {
-                                props.deleteBook(props.book._id);
-                            }}
-                            className="btn btn-outline-danger p-1 ml-1"
-                            >
-                            Delete
-                            </a>
-                        </div>
+                <div className="card-body">
+                    <div className="card-title">{props.book.book_title}</div>
+                    <div className="card-text">{props.book.book_author}</div>
+                    <div className="card-text">{props.book.book_rating}</div>
+                    <div className="card-text mt-auto">
+                        <Link to={"/view/" + props.book._id} className="btn btn-success shadow mr-1">View</Link>
+                        <a
+                        href="/"
+                        onClick={() => {
+                            props.deleteBook(props.book._id);
+                        }}
+                        className="btn btn-danger shadow ml-1"
+                        >
+                        Delete
+                        </a>
                     </div>
                 </div>
             </div>
@@ -154,7 +152,7 @@ const Bookshelf = (props) => {
     
     const FilterControls = () => {
         return (
-            <div className="row justify-content-center align-items-center p-2">
+            <div className="row border justify-content-center align-items-center p-2">
 
                 <label for="search">Search:&nbsp;</label>
                 <input autoFocus="autoFocus" type="text" value={searchTerm} onChange={handleSearch}/>&nbsp;
@@ -172,11 +170,11 @@ const Bookshelf = (props) => {
 
   const BookShelfList = () => {
     return (
-        <div className="my-3 card shadow">
-            <div className="px-2 mt-3 pb-2">
-                <h3 className="d-flex flex-row align-items-center justify-content-center bg-white mt-1">Bookshelf</h3>
+        <div>
+            <div className="mt-4 pl-2 pr-2">
+                <h3 className="d-flex flex-row align-items-center justify-content-center bg-white mt-3">Bookshelf</h3>
                 <FilterControls/>
-                <div className="row justify-content-center mt-0">
+                <div className="row justify-content-center mt-3">
                     {!loading ? Bookshelf() : "Loading..."}
                 </div>
             </div>
