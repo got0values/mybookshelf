@@ -13,6 +13,7 @@ import Create from "./components/create";
 import Bookshelf from "./components/bookshelf";
 import BookLists from "./components/booklists";
 import CreateList from "./components/createlist";
+import ViewList from "./components/viewlist";
 
 const App = (props) => {
   return (
@@ -35,6 +36,9 @@ const App = (props) => {
       </Route>
       <Route path="/createlist">
         <CreateList server={props.server} />
+      </Route>
+      <Route path="/viewlist/:id">
+        <ViewList server={props.server} />
       </Route>
     </div>
   );

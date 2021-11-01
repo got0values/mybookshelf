@@ -17,44 +17,44 @@ const View = (props) => {
 
   let {id} = useParams(); //gets the url param
 
-  const getBook = async () => {
-    try {
-      await axios
-      .get(props.server + "/book/" + id)
-      .then((response) => {
-        setBook({
-          bookISBN: response.data.book_ISBN,
-          bookTitle: response.data.book_title,
-          bookAuthor: response.data.book_author,
-          bookRating: response.data.book_rating,
-          bookNotes: response.data.book_notes
-        })
-      })
-    }catch(e) {
-      console.log(e);
-    }
-  }
-
-  const getThumb = async () => {
-    if (book.bookISBN !== "") {
+  useEffect(()=> {
+    const getBook = async () => {
       try {
         await axios
-        .get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + book.bookISBN)
+        .get(props.server + "/book/" + id)
         .then((response) => {
-          if (response.data.items !== undefined) {
-            setBook({ ...book,
-              bookThumbURL: response.data.items[0].volumeInfo.imageLinks.thumbnail,
-              bookDescription: response.data.items[0].volumeInfo.description
-            });
-          }
+          setBook({
+            bookISBN: response.data.book_ISBN,
+            bookTitle: response.data.book_title,
+            bookAuthor: response.data.book_author,
+            bookRating: response.data.book_rating,
+            bookNotes: response.data.book_notes
+          })
         })
-      } catch (e) {
+      }catch(e) {
         console.log(e);
       }
     }
-  }
 
-  useEffect(()=> {
+    const getThumb = async () => {
+      if (book.bookISBN !== "") {
+        try {
+          await axios
+          .get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + book.bookISBN)
+          .then((response) => {
+            if (response.data.items !== undefined) {
+              setBook({ ...book,
+                bookThumbURL: response.data.items[0].volumeInfo.imageLinks.thumbnail,
+                bookDescription: response.data.items[0].volumeInfo.description
+              });
+            }
+          })
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+
     getBook();
     getThumb();
   }, [id, book.bookISBN])
