@@ -11,6 +11,8 @@ import View from "./components/view";
 import Edit from "./components/edit";
 import Create from "./components/create";
 import Bookshelf from "./components/bookshelf";
+import BookLists from "./components/booklists";
+import CreateList from "./components/createlist";
 
 const App = (props) => {
   return (
@@ -27,6 +29,12 @@ const App = (props) => {
       </Route>
       <Route path="/create">
         <Create server={props.server} />
+      </Route>
+      <Route path="/booklists">
+        <BookLists server={props.server} />
+      </Route>
+      <Route path="/createlist">
+        <CreateList server={props.server} />
       </Route>
     </div>
   );

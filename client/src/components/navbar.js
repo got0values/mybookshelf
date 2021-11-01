@@ -26,8 +26,30 @@ const Navbar = () => {
     return (
       <li className="nav-item d-flex justify-content-center align-items-center">
         <NavLink className="nav-link" to="/create">
-          <i className="fas fa-fw fa-book"></i>
+          <i className="fas fa-fw fa-book-open"></i>
           <span style={{fontSize: 17}}>Add Book</span>
+        </NavLink>
+      </li>
+    )
+  }
+
+  const BookLists = () => {
+    return (
+      <li className="nav-item d-flex justify-content-center align-items-center">
+        <NavLink className="nav-link" to="/booklists">
+          <i className="fas fa-fw fa-file-alt"></i>
+          <span style={{fontSize: 17}}>Book Lists</span>
+        </NavLink>
+      </li>
+    )
+  }
+
+  const CreateListButton = () => {
+    return (
+      <li className="nav-item d-flex justify-content-center align-items-center">
+        <NavLink className="nav-link" to="/createlist">
+          <i className="fas fa-fw fa-list-alt"></i>
+          <span style={{fontSize: 17}}>Create List</span>
         </NavLink>
       </li>
     )
@@ -93,12 +115,14 @@ const Navbar = () => {
                 <li className="nav-item d-flex justify-content-center align-items-center">
                     <NavLink className="nav-link" to="/">
                         <i className="fas fa-fw fa-list"></i>
-                    <span style={{fontSize: 17}}>View Books</span>
+                    <span style={{fontSize: 17}}>Bookshelf</span>
                     </NavLink>
                 </li>
                     {myUser ? (
                     <>
                     <AddBookButton/>
+                    <BookLists/>
+                    <CreateListButton/>
                     <LogoutButton/>
                     </>
                     ):(
