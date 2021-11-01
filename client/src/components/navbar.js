@@ -50,7 +50,7 @@ const Navbar = () => {
 
   const LogoutButton = () => {
     return (
-      <div className="position-absolute fixed-bottom d-flex">
+      <div className="position-absolute fixed-bottom d-flex mb-2">
         <li className="nav-item">
           <button className="btn btn-link nav-link" onClick={() => logout({returnTo: window.location.origin})}>
             <i className="fas fa-fw fa-sign-out-alt"></i>

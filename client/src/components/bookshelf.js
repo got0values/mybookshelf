@@ -80,11 +80,11 @@ const Bookshelf = (props) => {
         
         return (
             <div className="card my-1 mx-3" style={{width: "14rem"}}>
-                <Link to={"/view/" + props.book._id}>
-                    <img className="card-img-top pt-2 px-5" src={bookurl} alt="bookimg"/>
+                <Link to={"/view/" + props.book._id} className="d-flex justify-content-center">
+                    <img className="card-img-top mt-2" src={bookurl} alt="bookimg" style={{maxHeight: "100%", height: "160px", width: "auto"}}/>
                 </Link>
                 <div className="mt-auto">
-                    <div className="card-header bg-white">{props.book.book_title}</div>
+                    <div className="card-header p-0 bg-white d-flex justify-content-center m-1 text-center">{props.book.book_title}</div>
                     <div className="card-body d-flex flex-column">
                         <div>{props.book.book_author}</div>
                         <div>{props.book.book_rating}</div>

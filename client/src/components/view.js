@@ -88,7 +88,7 @@ const View = (props) => {
   }
 
     return (
-        <div className="container w-75 fixed-right mb-3">
+        <div className="container card shadow w-75 fixed-right my-3">
             <h3 className="card-title d-flex flex-row align-items-center justify-content-center bg-white mt-3">{book.bookTitle}</h3>
             {book.bookISBN !== "" ? <BookInfo/> : ""}
             <hr/>
