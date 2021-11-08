@@ -56,25 +56,25 @@ const Bookshelf = (props) => {
 
         //gets book thumbnail
         const [bookurl, setBookurl] = useState("");
-        const getThumb = async (isbn) => {
-            if (isbn !== "") {
-                try {
-                    await axios
-                    .get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn)
-                    .then((response) => {
-                    if (response.data.items !== undefined) {
-                        setBookurl(response.data.items[0].volumeInfo.imageLinks.thumbnail)
-                        };
-                    })
-                } catch (e) {
-                    console.log(e);
+        useEffect(()=>{
+            const getThumb = async (isbn) => {
+                if (isbn !== "") {
+                    try {
+                        await axios
+                        .get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn)
+                        .then((response) => {
+                        if (response.data.items !== undefined) {
+                            setBookurl(response.data.items[0].volumeInfo.imageLinks.thumbnail)
+                            };
+                        })
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+                else {
+                    setBookurl("https://via.placeholder.com/128x195");
                 }
             }
-            else {
-                setBookurl("https://via.placeholder.com/128x195");
-            }
-        }
-        useEffect(()=>{
             getThumb(props.book.book_ISBN);
         },[props.book.book_ISBN])
         

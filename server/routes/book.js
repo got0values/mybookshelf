@@ -15,8 +15,10 @@ const Book = require("../models/book.js");
 
 const List = require("../models/list.js");
 
+const ListBook = require("../models/listbook.js");
 
-// This section will help you get a list of records by id.
+
+// This section will help you get a list of books by owner.
 bookRoutes.route("/book").get(function (req, res) {
   let db_connect = dbo.getDb("bookshelf");
   let mycollectionquery = {
@@ -82,7 +84,7 @@ bookRoutes.route("/update/:id").post(function (req, response) {
     });
 });
 
-// This section will help you delete a record
+// This section will help you delete a book
 bookRoutes.route("/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
@@ -122,7 +124,7 @@ bookRoutes.route("/list").get(function (req, res) {
     });
 });
 
-// This section will help you get a single book record by id
+// This section will help you get a single list record by id
 bookRoutes.route("/list/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
@@ -131,6 +133,75 @@ bookRoutes.route("/list/:id").get(function (req, res) {
       .findOne(myquery, function (err, result) {
         if (err) throw err;
         res.json(result);
+      });
+});
+
+// This section will help you delete a list
+bookRoutes.route("/list/:id").delete((req, response) => {
+  let db_connect = dbo.getDb();
+  let myDeleteListQuery = { _id: ObjectId( req.params.id )};
+  db_connect.collection("booklists").deleteOne(myDeleteListQuery, function (err, obj) {
+    if (err) throw err;
+    console.log("1 document deleted");
+    response.status(obj);
+  });
+});
+
+// This section will help you add a book to a list.
+bookRoutes.route("/list/addbook").post(function (req, response) {
+  let db_connect = dbo.getDb();
+  let list_ID = req.body.list_ID;
+  let findListQuery = { _id: ObjectId( list_ID ) };
+  let newListBook = new ListBook({
+    book_ISBN: req.body.book_ISBN,
+    book_title: req.body.book_title,
+    book_author: req.body.book_author,
+    book_rating: req.body.book_rating,
+    book_notes: req.body.book_notes,
+    added_by_ID: req.body.added_by_ID
+  })
+  db_connect
+    .collection("booklists")
+    .findOneAndUpdate(
+      findListQuery,
+      {$push: { books: newListBook}},
+      function (err, res) {
+        if (err) throw err;
+        response.json(res);
+      }
+    );
+});
+
+// This section will help you get a single book from booklist id
+bookRoutes.route("/:listid/:bookid").get(function (req, res) {
+  let db_connect = dbo.getDb();
+  let myBookListBookQuery = (
+                          {"books._id": ObjectId(req.params.bookid)}
+                        );
+  db_connect
+      .collection("booklists")
+      .findOne(myBookListBookQuery, function (err, result) {
+        if (err) throw err;
+        res.json(result);
+      });
+});
+
+// This section will help you delete a book from a booklist
+bookRoutes.route("/:listid/:bookid").delete((req, response) => {
+  let db_connect = dbo.getDb();
+  let findBooklistQuery = { _id: ObjectId( req.params.listid )};
+  db_connect
+    .collection("booklists")
+    .findOneAndUpdate(
+      findBooklistQuery, 
+      {$pull: { books: { _id: ObjectId(req.params.bookid)}
+      }},
+      {new: true},
+      function (err, obj) {
+        console.log(req.params)
+        if (err) throw err;
+        console.log("1 document deleted");
+        response.status(obj);
       });
 });
 

@@ -14,6 +14,8 @@ import Bookshelf from "./components/bookshelf";
 import BookLists from "./components/booklists";
 import CreateList from "./components/createlist";
 import ViewList from "./components/viewlist";
+import ViewBookListBook from "./components/viewBookListBook";
+import AddListBook from "./components/addlistbook";
 
 const App = (props) => {
   return (
@@ -39,6 +41,12 @@ const App = (props) => {
       </Route>
       <Route path="/viewlist/:id">
         <ViewList server={props.server} />
+      </Route>
+      <Route path="/viewlistlist/:listid/:bookid">
+        <ViewBookListBook server={props.server} />
+      </Route>
+      <Route path="/addlistbook">
+        <AddListBook server={props.server} />
       </Route>
     </div>
   );

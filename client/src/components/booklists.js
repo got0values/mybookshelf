@@ -37,32 +37,66 @@ const BookLists = (props) => {
         fetchLists();
     },[isAuthenticated, user, owner, props.server]);
 
-    const BookListTable = () => {
-        console.log(lists);
+    // This method will delete a list based
+    const deleteList = (id) => {
+        axios.delete(props.server + "/list/" + id).then((response) => {
+        console.log(response.data);
+        });
+        setLists(lists.filter((el) => el._id !== id));
+    }
+
+    const BookLists = (props) => {
         return (
-            <table className="table">
-                <thead>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th># of Books</th>
-                    <th></th>
-                    <th></th>
-                </thead>
-                <tbody>
-                    {lists.map((list)=> {
-                        return (
-                            <tr key={list._id}>
-                                <td>{list.list_name}</td>
-                                <td>{list.list_description}</td>
-                                <td>{list.length}</td>
-                                <td>
-                                    <Link to={"/viewlist/" + list._id} className="btn btn-outline-success p-1 px-2 mr-1">View</Link>
-                                </td>
+            <>
+                <tr key={props.list._id}>
+                    <td>{props.list.list_name}</td>
+                    <td>{props.list.list_description}</td>
+                    <td>{props.list.books.length}</td>
+                    <td>
+                        <Link to={"/viewlist/" + props.list._id} className="btn btn-outline-success p-1 px-2 mr-1">View</Link>
+                        <a
+                        href="/"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            props.deleteList(props.list._id);
+                        }}
+                        className="btn btn-outline-danger p-1 ml-1"
+                        >
+                        Delete
+                        </a>
+                    </td>
+                </tr>
+            </>
+        )
+    }
+
+    const BookListTable = () => {
+        return (
+            <div className="row justify-content-center">
+                <div className="col-auto">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th># of Books</th>
+                                <th></th>
                             </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                        {lists.map((currentlist) => {
+                            return(
+                                <BookLists
+                                    list={currentlist}
+                                    deleteList={deleteList}
+                                    key={currentlist._id}
+                                />
+                            )
+                        })}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         )
     }
 

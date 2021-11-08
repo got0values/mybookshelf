@@ -1,4 +1,5 @@
 import {useState, useEffect} from "react";
+import {useHistory} from "react-router-dom";
 // This will require to npm install axios
 import axios from 'axios';
 import { useAuth0 } from "@auth0/auth0-react";
@@ -31,6 +32,9 @@ const CreateList = (props) => {
         })
     }
 
+    //used in onSubmit to go back to booklist page
+    const history = useHistory();
+
     const onSubmit = (e) => {
         e.preventDefault();
         const newList = {
@@ -46,6 +50,7 @@ const CreateList = (props) => {
             listName: "",
             listDescription: ""
         })
+        history.push('/booklists/');
     }
 
     return (
@@ -69,7 +74,8 @@ const CreateList = (props) => {
                             type="text"
                             className="form-control"
                             value={list.listDescription}
-                            onChange={onChangeBookListDescription}
+                            onChange={onChangeBookListDescription} 
+                            maxLength="50"
                         />
                     </div>
                     <div className="form-group">
