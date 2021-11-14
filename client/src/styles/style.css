@@ -1,0 +1,7 @@
+.slide-in {
+    animation: slidein 0.5s forwards;
+}
+@keyframes slidein {
+    from {transform: translateX(-100%)}
+    to {transform: translateX(0%)}
+}
