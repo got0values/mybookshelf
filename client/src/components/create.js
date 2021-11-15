@@ -83,92 +83,94 @@ const Create = (props) => {
   }
 
   return (
-    <div className="container mt-4 card shadow mb-4">
-      <h3 className="card-title d-flex flex-row align-items-center justify-content-center bg-white mt-3">Add Book</h3>
-      <form onSubmit={onSubmit}>
-        <input type="hidden" value={owner}/> 
-        <div className="form-group">
-          <label>ISBN (for book info and thumbnail): </label>
-          <input
-            type="text"
-            className="form-control"
-            value={book.bookISBN}
-            onChange={onChangeBookISBN}
-          />
-        </div>
-        <div className="form-group">
-          <label>Title: </label>
-          <input
-            type="text"
-            className="form-control"
-            value={book.bookTitle}
-            onChange={onChangeBookTitle}
-          />
-        </div>
-        <div className="form-group">
-          <label>Author: </label>
-          <input
-            type="text"
-            className="form-control"
-            value={book.bookAuthor}
-            onChange={onChangeBookAuthor}
-          />
-        </div>
-        <div className="form-group">
-          <div className="form-check form-check-inline">
+    <div className="container w-75 fixed-right mt-4 card shadow my-3 mb-4">
+      <div className="px-2 mt-3 pb-2">
+        <h3 className="card-title d-flex flex-row align-items-center justify-content-center bg-white mt-3">Add Book</h3>
+        <form onSubmit={onSubmit}>
+          <input type="hidden" value={owner}/> 
+          <div className="form-group">
+            <label>ISBN (for book info and thumbnail): </label>
             <input
-              className="form-check-input"
-              type="radio"
-              name="priorityOptions"
-              id="priorityLow"
-              value="Bad"
-              checked={book.bookRating === "Bad"}
-              onChange={onChangeBookRating}
+              type="text"
+              className="form-control"
+              value={book.bookISBN}
+              onChange={onChangeBookISBN}
             />
-            <label className="form-check-label">Bad</label>
           </div>
-          <div className="form-check form-check-inline">
+          <div className="form-group">
+            <label>Title: </label>
             <input
-              className="form-check-input"
-              type="radio"
-              name="priorityOptions"
-              id="priorityMedium"
-              value="OK"
-              checked={book.bookRating === "OK"}
-              onChange={onChangeBookRating}
+              type="text"
+              className="form-control"
+              value={book.bookTitle}
+              onChange={onChangeBookTitle}
             />
-            <label className="form-check-label">Good</label>
           </div>
-          <div className="form-check form-check-inline">
+          <div className="form-group">
+            <label>Author: </label>
             <input
-              className="form-check-input"
-              type="radio"
-              name="priorityOptions"
-              id="priorityHigh"
-              value="Great"
-              checked={book.bookRating === "Great"}
-              onChange={onChangeBookRating}
+              type="text"
+              className="form-control"
+              value={book.bookAuthor}
+              onChange={onChangeBookAuthor}
             />
-            <label className="form-check-label">Great</label>
           </div>
-        </div>
-        <div className="form-group">
-          <label>Notes: </label>
-          <textarea
-            type="text"
-            className="form-control"
-            value={book.bookNotes}
-            onChange={onChangeBookNotes}
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="submit"
-            value="Add Book"
-            className="btn btn-success"
-          />
-        </div>
-      </form>
+          <div className="form-group">
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="priorityOptions"
+                id="priorityLow"
+                value="Bad"
+                checked={book.bookRating === "Bad"}
+                onChange={onChangeBookRating}
+              />
+              <label className="form-check-label">Bad</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="priorityOptions"
+                id="priorityMedium"
+                value="OK"
+                checked={book.bookRating === "OK"}
+                onChange={onChangeBookRating}
+              />
+              <label className="form-check-label">Good</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="priorityOptions"
+                id="priorityHigh"
+                value="Great"
+                checked={book.bookRating === "Great"}
+                onChange={onChangeBookRating}
+              />
+              <label className="form-check-label">Great</label>
+            </div>
+          </div>
+          <div className="form-group">
+            <label>Notes: </label>
+            <textarea
+              type="text"
+              className="form-control"
+              value={book.bookNotes}
+              onChange={onChangeBookNotes}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="submit"
+              value="Add Book"
+              className="btn btn-success"
+            />
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
