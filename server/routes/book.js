@@ -176,7 +176,7 @@ bookRoutes.route("/list/addbook").post(function (req, response) {
 bookRoutes.route("/:listid/:bookid").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myBookListBookQuery = (
-                          {"books._id": ObjectId(req.params.bookid)}
+                          {"books": {$elemMatch: {"_id": ObjectId(req.params.bookid)}}}
                         );
   db_connect
       .collection("booklists")
@@ -203,6 +203,30 @@ bookRoutes.route("/:listid/:bookid").delete((req, response) => {
         console.log("1 document deleted");
         response.status(obj);
       });
+});
+
+// This section will help you update a booklist book record by id.
+bookRoutes.route("/updatelistbook/:listid/:bookid").post(function (req, response) {
+  let db_connect = dbo.getDb();
+  let myquery = (
+                  {"books": {$elemMatch: {"_id": ObjectId(req.params.bookid)}}}
+                );
+  let newvalues = {
+    $set: {
+        book_ISBN: req.body.book_ISBN,
+        book_title: req.body.book_title,
+        book_author: req.body.book_author,
+        book_rating: req.body.book_rating,
+        book_notes: req.body.book_notes
+    },
+  };
+  db_connect
+    .collection("booklists")
+    .updateOne(myquery, newvalues, function (err, res) {
+      if (err) throw err;
+      console.log("1 document updated");
+      response.json(res);
+    });
 });
 
 module.exports = bookRoutes;

@@ -16,6 +16,7 @@ import CreateList from "./components/createlist";
 import ViewList from "./components/viewlist";
 import ViewBookListBook from "./components/viewBookListBook";
 import AddListBook from "./components/addlistbook";
+import EditListBook from "./components/editlistbook";
 
 const App = (props) => {
   return (
@@ -47,6 +48,9 @@ const App = (props) => {
       </Route>
       <Route path="/addlistbook">
         <AddListBook server={props.server} />
+      </Route>
+      <Route path="/editlistbook/:listid/:bookid">
+        <EditListBook server={props.server} />
       </Route>
     </div>
   );
