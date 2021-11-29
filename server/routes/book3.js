@@ -172,25 +172,6 @@ bookRoutes.route("/list/addbook").post(function (req, response) {
     );
 });
 
-// This section will help you get a single book from book id to fill edit form
-bookRoutes.route("/booklistbook/:bookid").get(function (req, res) {
-  let db_connect = dbo.getDb();
-  let myBookListBookQuery = (
-                          {"books": {$elemMatch: {"_id": ObjectId(req.params.bookid)}}}
-                        );
-  db_connect
-      .collection("booklists")
-      .findOne(myBookListBookQuery, function (err, result) {
-        if (err) throw err;
-        for (let i =0; i < result.books.length; i++) {
-          if (result.books[i]._id.equals(ObjectId(req.params.bookid))) {
-            res.json(result.books[i]);
-            return;
-          }
-        }
-      });
-});
-
 // This section will help you get a single book from booklist id
 bookRoutes.route("/:listid/:bookid").get(function (req, res) {
   let db_connect = dbo.getDb();
@@ -201,24 +182,8 @@ bookRoutes.route("/:listid/:bookid").get(function (req, res) {
       .collection("booklists")
       .findOne(myBookListBookQuery, function (err, result) {
         if (err) throw err;
-        for (let i =0; i < result.books.length; i++) {
-          if (result.books[i]._id.equals(ObjectId(req.params.bookid))) {
-            res.json(result.books[i]);
-            return;
-          }
-        }
+        res.json(result);
       });
-      // List
-      // .findOne({list_name: "New Random"}, function (err,result){
-      //   console.log(result)
-      // })
-      // .where("books._id").equals(ObjectId(req.params.bookid))
-      // .populate("books")
-      // .exec(function(err, result){
-      //   console.log(result)
-      //   res.json(result)
-      // })
-      
 });
 
 // This section will help you delete a book from a booklist
@@ -243,17 +208,16 @@ bookRoutes.route("/:listid/:bookid").delete((req, response) => {
 // This section will help you update a booklist book record by id.
 bookRoutes.route("/updatelistbook/:listid/:bookid").post(function (req, response) {
   let db_connect = dbo.getDb();
-  console.log(req.body)
   let myquery = (
                   {"books": {$elemMatch: {"_id": ObjectId(req.params.bookid)}}}
                 );
   let newvalues = {
     $set: {
-        "books.$.book_ISBN": req.body.book_ISBN,
-        "books.$.book_title": req.body.book_title,
-        "books.$.book_author": req.body.book_author,
-        "books.$.book_rating": req.body.book_rating,
-        "books.$.book_notes": req.body.book_notes
+        book_ISBN: req.body.book_ISBN,
+        book_title: req.body.book_title,
+        book_author: req.body.book_author,
+        book_rating: req.body.book_rating,
+        book_notes: req.body.book_notes
     },
   };
   db_connect

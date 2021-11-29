@@ -45,20 +45,13 @@ const EditListBook = (props) => {
         .get(props.server + "/booklistbook/" + bookid)
         .then((response) => {
             console.log(response.data)
-
-            for (let i = 0; i < response.data.books.length; i++) {
-                if (response.data.books[i]._id === bookid) {
-                    const theBook = response.data.books[i];
-                    console.log(theBook);
-                    setBook({
-                        bookISBN: theBook.book_ISBN.replace(/-/g, ''),
-                        bookTitle: theBook.book_title,
-                        bookAuthor: theBook.book_author,
-                        bookRating: theBook.book_rating,
-                        bookNotes: theBook.book_notes
-                    })
-                }
-            }
+            setBook({
+                bookISBN: response.data.book_ISBN.replace(/-/g, ''),
+                bookTitle: response.data.book_title,
+                bookAuthor: response.data.book_author,
+                bookRating: response.data.book_rating,
+                bookNotes: response.data.book_notes
+            })
         })
         }catch(e) {
         console.log(e);
