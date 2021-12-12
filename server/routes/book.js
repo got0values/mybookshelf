@@ -201,7 +201,7 @@ bookRoutes.route("/:listid/:bookid").get(function (req, res) {
       .collection("booklists")
       .findOne(myBookListBookQuery, function (err, result) {
         if (err) throw err;
-        for (let i =0; i < result.books.length; i++) {
+        for (let i = 0; i < result.books.length; i++) {
           if (result.books[i]._id.equals(ObjectId(req.params.bookid))) {
             res.json(result.books[i]);
             return;
