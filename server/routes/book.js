@@ -206,7 +206,7 @@ bookRoutes.route("/:listid/:bookid").get(function (req, res) {
             res.json(result.books[i]);
             return;
           }
-          }
+        }
       });
       // List
       // .findOne({list_name: "New Random"}, function (err,result){
