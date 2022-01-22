@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 // This will require to npm install axios
 import axios from 'axios';
 import { Link, useParams } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 
 const ViewList = (props) => {
     let {id} = useParams(); //gets the url param
@@ -116,10 +117,11 @@ const ViewList = (props) => {
                                 listID: id,
                                 listName: list.listName    
                                 }
-                        }} 
-                        className="btn btn-success"
+                        }}
                         >
+                            <Button variant="success">
                             Add Book
+                            </Button>
                         </Link>
                     </div>
                     <div>
