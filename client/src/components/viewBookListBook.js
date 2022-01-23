@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Button from 'react-bootstrap/Button';
 // This will require to npm install axios
 import axios from 'axios';
 import { Link, useParams } from "react-router-dom";
@@ -98,7 +99,11 @@ const ViewBookListBook = (props) => {
             <p>Rating: {book.bookRating}</p>
             <p>Notes: {book.bookNotes}</p>
             <div className="row justify-content-center my-2">
-                <Link to={`/editlistbook/${listid}/${bookid}`} className="btn btn-success">Edit</Link>
+                <Link to={`/editlistbook/${listid}/${bookid}`} className="btn btn-success">
+                    <Button variant="success">
+                        Edit
+                    </Button>
+                </Link>
             </div>
             <div>
                 <Link to={'/viewlist/' + listid}>Back</Link>
