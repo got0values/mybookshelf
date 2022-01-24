@@ -1,4 +1,7 @@
 import {useState, useEffect} from "react";
+import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 // This will require to npm install axios
 import axios from 'axios';
 import { Link } from "react-router-dom";
@@ -89,15 +92,19 @@ const Bookshelf = (props) => {
                         <div>{props.book.book_author}</div>
                         <div>{props.book.book_rating}</div>
                         <div className="mt-auto">
-                            <Link to={"/view/" + props.book._id} className="btn btn-outline-success p-1 px-2 mr-1">View</Link>
+                            <Link to={"/view/" + props.book._id}>
+                                <Button variant="outline-success" className="p-1 px-2 mr-1">
+                                View
+                                </Button>
+                            </Link>
                             <a
                             href="/"
                             onClick={() => {
                                 props.deleteBook(props.book._id);
-                            }}
-                            className="btn btn-outline-danger p-1 ml-1"
-                            >
-                            Delete
+                            }}>
+                                <Button variant="outline-danger" className="p-1 ml-1">
+                                Delete
+                                </Button>
                             </a>
                         </div>
                     </div>
@@ -154,19 +161,19 @@ const Bookshelf = (props) => {
     
     const FilterControls = () => {
         return (
-            <div className="row justify-content-center align-items-center p-2">
-
-                <label for="search">Search:&nbsp;</label>
-                <input autoFocus="autoFocus" type="text" value={searchTerm} onChange={handleSearch}/>&nbsp;
-                <label for="filterrating">Rating:&nbsp;</label>
-                <select id="filterrating" value={ratingFilter} onChange={filterRating}>
-                    <option value="">All</option>
-                    <option value="Bad">Bad</option>
-                    <option value="OK">OK</option>
-                    <option value="Great">Great</option>
-                </select>
-
-            </div>
+            <Row className="justify-content-center align-items-center p-2">
+                <Col md={{ span: 6, offset: 2 }}>
+                    <label for="search">Search:&nbsp;</label>
+                    <input autoFocus="autoFocus" type="text" value={searchTerm} onChange={handleSearch}/>&nbsp;
+                    <label for="filterrating">Rating:&nbsp;</label>
+                    <select id="filterrating" value={ratingFilter} onChange={filterRating}>
+                        <option value="">All</option>
+                        <option value="Bad">Bad</option>
+                        <option value="OK">OK</option>
+                        <option value="Great">Great</option>
+                    </select>
+                </Col>
+            </Row>
         )
     }
 
