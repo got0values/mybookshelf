@@ -1,15 +1,19 @@
 FROM node:16
 
-WORKDIR /app/server
-COPY /server/package.json /app/server/
-RUN npm install
-COPY . .
-EXPOSE 5000
-CMD [ "node", "server.js" ]
-
+# Create app directory
 WORKDIR /app/client
-COPY /client/package.json /app/client/
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json /app/client
+
 RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
+
+# Bundle app source
 COPY . .
+
 EXPOSE 3000
 CMD [ "npm", "start" ]
