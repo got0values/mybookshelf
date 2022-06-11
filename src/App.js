@@ -21,6 +21,7 @@ import EditListBook from "./components/editlistbook";
 const App = (props) => {
   return (
     <div id="wrapper">
+      {console.log(props.server)}
       <Navbar />
       <Route exact path="/">
         <Bookshelf server={props.server} />
