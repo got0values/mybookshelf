@@ -6,6 +6,6 @@ COPY . .
 EXPOSE 3000
 RUN npm run build
 RUN npm i -g serve
-CMD ["serve", "build"]
+# CMD ["serve", "build"]
 # RUN serve -s build
-# CMD [ "npm", "start" ]
+CMD [ "npm", "run", "start" ]
