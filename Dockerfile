@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:14
 WORKDIR /
 COPY package.json /
 RUN npm install -g npm@8.12.1
